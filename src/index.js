@@ -9,7 +9,6 @@ const genDiff = (filepath1, filepath2) => {
   const data2 = JSON.parse(jsonData2);
   const uniqueValues = _.union(Object.keys(data1), Object.keys(data2));
   uniqueValues.sort();
-  // console.log(path.resolve(process.cwd(), filepath1));
 
   const result = uniqueValues.flatMap((key) => {
     if (!_.has(data1, key)) {

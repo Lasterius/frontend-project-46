@@ -14,4 +14,4 @@ Difference calculator compares two configuration files and shows a difference.
 
 **Comparing two JSON files**
 
-https://asciinema.org/a/ikeH8kqp4QqIhqzQDf4Cb5FPF
+[![asciicast](https://asciinema.org/a/ikeH8kqp4QqIhqzQDf4Cb5FPF.svg)](https://asciinema.org/a/ikeH8kqp4QqIhqzQDf4Cb5FPF)
