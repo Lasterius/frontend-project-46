@@ -1,9 +1,8 @@
-setup: 
-	install-deps
-	npm link
+setup: install-deps
+	sudo npm link
 
 install-deps:
-	npm ci
+	sudo npm ci
 
 publish:
 	npm publish --dry-run
