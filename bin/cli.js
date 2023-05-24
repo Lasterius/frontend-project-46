@@ -16,6 +16,7 @@ program
   .configureHelp({ sortOptions: true });
 
 program.action(function () {
+  console.log();
   console.log(getFilesDiff(this.args[0], this.args[1], this.opts().format));
 });
 

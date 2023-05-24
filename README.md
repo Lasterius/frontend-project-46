@@ -11,7 +11,7 @@ Difference calculator compares two configuration files and shows a difference.
 
 **Comparing two JSON files**
 
-[![asciicast](https://asciinema.org/a/zJwt4Rte9LzCx0FusB1orNsuo.svg)](https://asciinema.org/a/zJwt4Rte9LzCx0FusB1orNsuo)
+[![asciicast](https://asciinema.org/a/UvnviWq9KBpWvmjIhHNGJpTlV.svg)](https://asciinema.org/a/UvnviWq9KBpWvmjIhHNGJpTlV)
 
 **Comparing two YAML files**
 

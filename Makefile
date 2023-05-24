@@ -23,7 +23,7 @@ start:
 	bin/cli.js -h
 
 gendiff-json:
-	node bin/cli.js ./__fixtures__/file3.json ./__fixtures__/file4.json
+	node bin/cli.js --format plain ./__fixtures__/file3.json ./__fixtures__/file4.json
 
 gendiff-yaml:
 	node bin/cli.js ./__fixtures__/file1.yaml ./__fixtures__/file2.yaml
