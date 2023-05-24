@@ -1,4 +1,4 @@
-import getFormatter from '../formatters/index.js';
+import getFormatter from './formatters/index.js';
 import { genDiff } from './gen-diff.js';
 import parse from './parsers.js';
 

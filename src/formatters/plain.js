@@ -1,6 +1,6 @@
 import isPlainObject from 'lodash/isPlainObject.js';
 import sortBy from 'lodash/sortBy.js';
-import { getState } from '../src/gen-diff.js';
+import { getState } from '../gen-diff.js';
 
 const stringify = (val) => {
   if (isPlainObject(val)) return '[complex value]';
@@ -22,7 +22,9 @@ export default function formatPlain(diffData, path = []) {
         return `Property '${getPathStr()}' was removed`;
       case getState('changed'): {
         const [val1, val2] = val;
-        return `Property '${getPathStr()}' was updated. From ${stringify(val1)} to ${stringify(val2)}`;
+        return `Property '${getPathStr()}' was updated. From ${stringify(val1)} to ${stringify(
+          val2,
+        )}`;
       }
       default:
         throw new Error(`Unexpected state ${state}`);

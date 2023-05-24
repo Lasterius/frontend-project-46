@@ -1,6 +1,6 @@
 import isPlainObject from 'lodash/isPlainObject.js';
 import sortBy from 'lodash/sortBy.js';
-import { getState } from '../src/gen-diff.js';
+import { getState } from '../gen-diff.js';
 
 const indent = '  ';
 
