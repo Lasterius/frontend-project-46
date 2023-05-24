@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import getFilesDiff from '../index.js';
+import getFilesDiff from '../src/index.js';
 
 const jsonFilename1 = 'file3.json';
 const jsonFilename2 = 'file4.json';
@@ -22,16 +22,22 @@ test('getFilesDiff "stylish" testing', () => {
   const diffFile = readFile(stylishDiffFilename);
   expect(getFilesDiff(getFixturePath(jsonFilename1), getFixturePath(yamlFilename2)))
     .toMatch(diffFile);
-  expect(getFilesDiff(getFixturePath(yamlFilename1), getFixturePath(jsonFilename2), formatName))
+  expect(
+    getFilesDiff(getFixturePath(yamlFilename1), getFixturePath(jsonFilename2), formatName),
+  )
     .toMatch(diffFile);
 });
 
 test('getFilesDiff "plain" testing', () => {
   const formatName = 'plain';
   const diffFile = readFile(plainDiffFilename);
-  expect(getFilesDiff(getFixturePath(jsonFilename1), getFixturePath(yamlFilename2), formatName))
+  expect(
+    getFilesDiff(getFixturePath(jsonFilename1), getFixturePath(yamlFilename2), formatName),
+  )
     .toMatch(diffFile);
-  expect(getFilesDiff(getFixturePath(yamlFilename1), getFixturePath(jsonFilename2), formatName))
+  expect(
+    getFilesDiff(getFixturePath(yamlFilename1), getFixturePath(jsonFilename2), formatName),
+  )
     .toMatch(diffFile);
 });
 

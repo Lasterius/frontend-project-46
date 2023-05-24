@@ -1,6 +1,6 @@
-import getFormatter from './formatters/index.js';
-import { genDiff } from './src/gen-diff.js';
-import parse from './src/parsers.js';
+import getFormatter from '../formatters/index.js';
+import { genDiff } from './gen-diff.js';
+import parse from './parsers.js';
 
 export default function getFilesDiff(filePath1, filePath2, formatName = 'stylish') {
   const obj1 = parse(filePath1);

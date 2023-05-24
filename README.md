@@ -10,6 +10,7 @@ Difference calculator compares two configuration files and shows a difference.
 ## Requirements
 
 Node.js: v18.14.1 or higher
+
 Make
 
 ## Setup
