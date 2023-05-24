@@ -10,14 +10,20 @@ publish:
 lint:
 	npx eslint .
 
-gendiff:
-	node bin/gendiff.js ./__fixtures__/file1.json ./__fixtures__/file2.json
-
 test:
 	npm test
 
 test-watch:
-	npm test -- --watch
+	npm run jest-watch
 
 test-coverage:
 	npm test -- --coverage --coverageProvider=v8
+
+start:
+	bin/cli.js -h
+
+gendiff-json:
+	node bin/cli.js ./__fixtures__/file1.json ./__fixtures__/file2.json
+
+gendiff-yaml:
+	node bin/cli.js ./__fixtures__/file1.yaml ./__fixtures__/file2.yaml
