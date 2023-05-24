@@ -4,14 +4,14 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import getFilesDiff from '../index.js';
 
+const jsonFileName1 = 'file3.json';
+const jsonFileName2 = 'file4.json';
+const yamlFileName1 = 'file3.yaml';
+const yamlFileName2 = 'file4.yaml';
+const diffFileName = 'file3.file4.diff';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
-const jsonFileName1 = 'file1.json';
-const jsonFileName2 = 'file2.json';
-const diffFileName = 'file1.file2.diff';
-const yamlFileName1 = 'file1.yaml';
-const yamlFileName2 = 'file2.yaml';
 
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 const readFile = (filename) => fs.readFileSync(getFixturePath(filename), 'utf-8');
@@ -24,14 +24,13 @@ beforeAll(() => {
   writeFile(yamlFileName2, yaml.dump(obj2));
 });
 
-test('getFilesDiff flat JSONs testing', () => {
+test('getFilesDiff JSONs testing', () => {
   const diffFile = readFile(diffFileName);
-  expect(getFilesDiff(getFixturePath(jsonFileName1), getFixturePath(jsonFileName2))).toMatch(
-    diffFile
-  );
+  const actual = getFilesDiff(getFixturePath(jsonFileName1), getFixturePath(jsonFileName2));
+  expect(actual).toMatch(diffFile);
 });
 
-test('getFilesDiff flat YAMLs testing', () => {
+test('getFilesDiff YAMLs testing', () => {
   const diffFile = readFile(diffFileName);
   expect(getFilesDiff(getFixturePath(yamlFileName1), getFixturePath(yamlFileName2))).toMatch(
     diffFile
