@@ -1,8 +1,7 @@
 #!/usr/bin/env node
-/* eslint-disable func-names */
 
 import { Command } from 'commander';
-import getFilesDiff from '../src/index.js';
+import getFilesDiff from '../index.js';
 
 const program = new Command();
 

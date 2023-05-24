@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import getFilesDiff from '../src/index.js';
+import getFilesDiff from '../index.js';
 
 const jsonFilename1 = 'file1.json';
 const jsonFilename2 = 'file2.json';
