@@ -11,8 +11,7 @@ const stringify = (val) => {
 export default function formatPlain(diffData, path = []) {
   const entries = Object.entries(diffData);
   const lines = sortBy(entries).flatMap(([key, [state, val]]) => {
-    const currentPath = [...path];
-    currentPath.push(key);
+    const currentPath = path.concat(key);
     const getPathStr = () => currentPath.join('.');
     switch (state) {
       case getState('unchanged'):
@@ -23,9 +22,7 @@ export default function formatPlain(diffData, path = []) {
         return `Property '${getPathStr()}' was removed`;
       case getState('changed'): {
         const [val1, val2] = val;
-        return `Property '${getPathStr()}' was updated. From ${stringify(val1)} to ${stringify(
-          val2
-        )}`;
+        return `Property '${getPathStr()}' was updated. From ${stringify(val1)} to ${stringify(val2)}`;
       }
       default:
         throw new Error(`Unexpected state ${state}`);
