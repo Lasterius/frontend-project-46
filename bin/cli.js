@@ -2,7 +2,7 @@
 /* eslint-disable func-names */
 
 import { Command } from 'commander';
-import getFilesDiff from '../index.js';
+import getFilesDiff from '../src/index.js';
 
 const program = new Command();
 
