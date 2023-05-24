@@ -8,7 +8,7 @@ const program = new Command();
 
 program
   .name('gendiff')
-  .version('0.1.0')
+  .version('1.0.0')
   .description('Compares two configuration files and shows a difference.')
   .arguments('<filepath1> <filepath2>')
   .option('-f, --format <type>', 'output format', 'stylish')
@@ -16,8 +16,7 @@ program
   .configureHelp({ sortOptions: true });
 
 program.action((filepath1, filepath2, options) => {
-  console.log();
-  console.log(getFilesDiff(filepath1, filepath2, options.format));
+  console.log(`\n${getFilesDiff(filepath1, filepath2, options.format)}`);
 });
 
 function errorColor(str) {
