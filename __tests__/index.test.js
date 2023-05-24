@@ -3,13 +3,13 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import getFilesDiff from '../src/index.js';
 
-const jsonFilename1 = 'file3.json';
-const jsonFilename2 = 'file4.json';
-const yamlFilename1 = 'file3.yaml';
-const yamlFilename2 = 'file4.yaml';
-const stylishDiffFilename = 'file3.file4.stylish';
-const plainDiffFilename = 'file3.file4.plain';
-const jsonDiffFilename = 'file3.file4.json';
+const jsonFilename1 = 'file1.json';
+const jsonFilename2 = 'file2.json';
+const yamlFilename1 = 'file1.yaml';
+const yamlFilename2 = 'file2.yaml';
+const stylishDiffFilename = 'file1-file2.stylish';
+const plainDiffFilename = 'file1-file2.plain';
+const jsonDiffFilename = 'file1-file2.json';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
