@@ -24,19 +24,19 @@ Make
 
 ## Using
 
-Get information
+Get information.
 
 ```
 make start
 ```
 
-Comparing two files (json or yaml - you can switch in Makefile)
+Comparing two files (json or yaml - you can switch in Makefile).
 
 ```
 make gendiff
 ```
 
-Comparing two files in the format (stylish, plain, json - you can switch in Makefile)
+Comparing two files in the format (stylish, plain, json - you can switch in Makefile).
 
 ```
 make gendiff-format
