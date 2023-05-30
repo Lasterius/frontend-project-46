@@ -1,15 +1,7 @@
 import fs from 'fs';
+import { fileURLToPath } from 'node:url';
 import path from 'path';
-import { fileURLToPath } from 'url';
 import getFilesDiff from '../index.js';
-
-const jsonFilename1 = 'file1.json';
-const jsonFilename2 = 'file2.json';
-const yamlFilename1 = 'file1.yaml';
-const yamlFilename2 = 'file2.yaml';
-const stylishDiffFilename = 'file1-file2.stylish';
-const plainDiffFilename = 'file1-file2.plain';
-const jsonDiffFilename = 'file1-file2.json';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -17,39 +9,30 @@ const __dirname = path.dirname(__filename);
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 const readFile = (filename) => fs.readFileSync(getFixturePath(filename), 'utf-8');
 
-test('getFilesDiff "stylish" testing', () => {
-  const formatName = 'stylish';
-  const diffFile = readFile(stylishDiffFilename);
-  expect(getFilesDiff(getFixturePath(jsonFilename1), getFixturePath(yamlFilename2)))
-    .toMatch(diffFile);
-  expect(
-    getFilesDiff(getFixturePath(yamlFilename1), getFixturePath(jsonFilename2), formatName),
-  )
-    .toMatch(diffFile);
-});
+const extensions = [
+  ['json', 'json', undefined, 'file1-file2.stylish'],
+  ['yaml', 'yaml', undefined, 'file1-file2.stylish'],
+  ['json', 'yaml', undefined, 'file1-file2.stylish'],
 
-test('getFilesDiff "plain" testing', () => {
-  const formatName = 'plain';
-  const diffFile = readFile(plainDiffFilename);
-  expect(
-    getFilesDiff(getFixturePath(jsonFilename1), getFixturePath(yamlFilename2), formatName),
-  )
-    .toMatch(diffFile);
-  expect(
-    getFilesDiff(getFixturePath(yamlFilename1), getFixturePath(jsonFilename2), formatName),
-  )
-    .toMatch(diffFile);
-});
+  ['json', 'json', 'stylish', 'file1-file2.stylish'],
+  ['yaml', 'yaml', 'stylish', 'file1-file2.stylish'],
+  ['json', 'yaml', 'stylish', 'file1-file2.stylish'],
 
-test('getFilesDiff "json" testing', () => {
-  const formatName = 'json';
-  const expectedObj = JSON.parse(readFile(jsonDiffFilename));
-  const actualObj1 = JSON.parse(
-    getFilesDiff(getFixturePath(jsonFilename1), getFixturePath(yamlFilename2), formatName),
-  );
-  const actualObj2 = JSON.parse(
-    getFilesDiff(getFixturePath(yamlFilename1), getFixturePath(jsonFilename2), formatName),
-  );
-  expect(expectedObj).toEqual(actualObj1);
-  expect(expectedObj).toEqual(actualObj2);
-});
+  ['json', 'json', 'plain', 'file1-file2.plain'],
+  ['yaml', 'yaml', 'plain', 'file1-file2.plain'],
+  ['json', 'yaml', 'plain', 'file1-file2.plain'],
+
+  ['json', 'json', 'json', 'file1-file2.json'],
+  ['yaml', 'yaml', 'json', 'file1-file2.json'],
+  ['json', 'yaml', 'json', 'file1-file2.json'],
+];
+
+test.each(extensions)(
+  'Diff test (%s, %s, %s)',
+  (file1Extension, file2Extension, format, resultFile) => {
+    const filepath1 = getFixturePath(`file1.${file1Extension}`);
+    const filepath2 = getFixturePath(`file2.${file2Extension}`);
+    const result = readFile(resultFile);
+    expect(getFilesDiff(filepath1, filepath2, format)).toBe(result);
+  },
+);

@@ -6,7 +6,7 @@
     "gendiff": "bin/gendiff.js"
   },
   "description": "My second project as a frontend developer on Hexlet. This program compares two configuration files and shows a difference.",
-  "main": "src/index.js",
+  "main": "index.js",
   "scripts": {
     "test": "npx jest",
     "jest-coverage": "jest --coverage --coverageProvider=v8",

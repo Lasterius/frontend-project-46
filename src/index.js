@@ -1,26 +1,27 @@
-import _cloneDeep from 'lodash/cloneDeep.js';
-import _isEqual from 'lodash/isEqual.js';
-import _isPlainObject from 'lodash/isPlainObject.js';
-import _set from 'lodash/set.js';
-import getState from './helpers.js';
+import _ from 'lodash';
 
 export default function genDiff(obj1, obj2) {
-  const makeValue = (val) => (_isPlainObject(val) ? genDiff(val, val) : _cloneDeep(val));
-  const mergedKeys = Object.keys({ ...obj1, ...obj2 });
-  return mergedKeys.reduce((acc, key) => {
-    const updateAcc = (state, value) => {
-      _set(acc, [key], [state, value]);
-    };
-    const val1 = obj1[key];
-    const val2 = obj2[key];
+  const iter = (parserData1, parserData2, name) => {
+    if (!_.has(parserData1, name)) {
+      return { name, state: 'added', value: parserData2[name] };
+    }
+    if (!_.has(parserData2, name)) {
+      return { name, state: 'deleted', value: parserData1[name] };
+    }
+    if (_.isObject(parserData1[name]) && _.isObject(parserData2[name])) {
+      return { name, state: 'nested', children: genDiff(parserData1[name], parserData2[name]) };
+    }
+    if (parserData1[name] !== parserData2[name]) {
+      return {
+        name,
+        state: 'changed',
+        previousValue: parserData1[name],
+        currentValue: parserData2[name],
+      };
+    }
+    return { name, state: 'unchanged', value: parserData1[name] };
+  };
+  const keys = _.sortBy(_.union(Object.keys(obj1), Object.keys(obj2)));
 
-    if (val1 === undefined) updateAcc(getState('added'), makeValue(val2));
-    else if (val2 === undefined) updateAcc(getState('removed'), makeValue(val1));
-    else if (_isPlainObject(val1) && _isPlainObject(val2)) {
-      updateAcc(getState('unchanged'), genDiff(val1, val2));
-    } else if (_isEqual(val1, val2)) updateAcc(getState('unchanged'), makeValue(val2));
-    else updateAcc(getState('changed'), [makeValue(val1), makeValue(val2)]);
-
-    return acc;
-  }, {});
+  return keys.map((key) => iter(obj1, obj2, key));
 }
