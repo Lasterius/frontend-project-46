@@ -27,19 +27,19 @@ Make
 Get information.
 
 ```
-make start
+gendiff -h
 ```
 
-Comparing two files (json or yaml - you can switch in Makefile).
+Comparing two files (json or yaml - you can switch).
 
 ```
-make gendiff
+gendiff file1.json file2.yaml
 ```
 
-Comparing two files in the format (stylish, plain, json - you can switch in Makefile).
+Comparing two files in the format (stylish, plain, json - you can switch).
 
 ```
-make gendiff-format
+gendiff --format plain file1.json file2.json
 ```
 
 ## Play demo

@@ -7,30 +7,36 @@ const stringify = (value) => {
   if (_.isString(value)) {
     return `'${value}'`;
   }
-  if (_.isNull(value)) {
-    return 'null';
-  }
   return value;
 };
 
-export default function formatPlain(data, key = []) {
-  _.compact(
-    data.map((elem) => {
-      const keysProperty = `${[...key, elem.name].join('.')}`;
-      switch (elem.state) {
+const formatPlain = (tree) => {
+  const iter = (node, path) => {
+    const lines = node.flatMap((diff) => {
+      const keysProperty = path === '' ? `${diff.key}` : `${path}.${diff.key}`;
+
+      switch (diff.type) {
         case 'nested':
-          return formatPlain(elem.children, [...key, elem.name]);
+          return iter(diff.children, keysProperty);
         case 'added':
-          return `Property '${keysProperty}' was added with value: ${stringify(elem.value)}`;
+          return `Property '${keysProperty}' was added with value: ${stringify(diff.value2)}`;
         case 'deleted':
           return `Property '${keysProperty}' was removed`;
         case 'changed':
           return `Property '${keysProperty}' was updated. From ${stringify(
-            elem.previousValue,
-          )} to ${stringify(elem.currentValue)}`;
+            diff.value1,
+          )} to ${stringify(diff.value2)}`;
+        case 'unchanged':
+          return [];
         default:
-          return '';
+          throw new Error(`Unknown type of diff: ${diff.type}`);
       }
-    }),
-  ).join('\n');
-}
+    });
+
+    return [...lines].join('\n');
+  };
+
+  return iter(tree, '');
+};
+
+export default formatPlain;

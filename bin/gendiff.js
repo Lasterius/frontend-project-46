@@ -14,6 +14,5 @@ program
   .helpOption('-h, --help', 'output usage information')
   .action((filepath1, filepath2, options) => {
     console.log(getFilesDiff(filepath1, filepath2, options.format));
-  });
-
-program.parse();
+  })
+  .parse();

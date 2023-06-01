@@ -1,14 +1,16 @@
 import yaml from 'js-yaml';
 
-export default function getParser(file, format) {
-  switch (format) {
+const getParser = (data, type) => {
+  switch (type) {
     case 'json':
-      return JSON.parse(file);
+      return JSON.parse(data);
     case 'yml':
-      return yaml.load(file);
+      return yaml.load(data);
     case 'yaml':
-      return yaml.load(file);
+      return yaml.load(data);
     default:
-      throw new Error(`Unsupported file format <${format}>`);
+      throw new Error(`Unsupported type of format <${type}>`);
   }
-}
+};
+
+export default getParser;

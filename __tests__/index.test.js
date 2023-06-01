@@ -33,6 +33,6 @@ test.each(extensions)(
     const filepath1 = getFixturePath(`file1.${file1Extension}`);
     const filepath2 = getFixturePath(`file2.${file2Extension}`);
     const result = readFile(resultFile);
-    expect(getFilesDiff(filepath1, filepath2, format)).toBe(result);
+    expect(getFilesDiff(filepath1, filepath2, format)).toEqual(result);
   },
 );

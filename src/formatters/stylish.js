@@ -1,48 +1,43 @@
 import _ from 'lodash';
 
-const symbols = {
-  unchanged: ' ',
-  added: '+',
-  deleted: '-',
-  nested: ' ',
-};
+const stepIndent = 4;
+const getIndent = (depth) => ' '.repeat(depth * stepIndent);
 
-const indent = 4;
-const setIndent = (depth, spaces = 2) => ' '.repeat(depth * indent - spaces);
-
-const stringify = (value, depth) => {
-  if (!_.isObject(value)) return value;
-  const arrayElem = Object.entries(value).map(
-    ([key, val]) => `${setIndent(depth)}  ${key}: ${stringify(val, depth + 1)}`,
-  );
-  return ['{', ...arrayElem, `${setIndent(depth - 1)}  }`].join('\n');
-};
-
-const formatData = (elem, depth) => {
-  const keyValue = `${elem.name}: ${stringify(elem.value, depth + 1)}`;
-  const getDataElem = (data) => data.map((element) => formatData(element, depth + 1)).join('\n');
-
-  switch (elem.state) {
-    case 'added':
-      return `${setIndent(depth)}+ ${keyValue}`;
-    case 'deleted':
-      return `${setIndent(depth)}- ${keyValue}`;
-    case 'unchanged':
-      return `${setIndent(depth)}  ${keyValue}`;
-    case 'changed':
-      return `${`${setIndent(depth)}- ${elem.name}: ${stringify(
-        elem.previousValue,
-        depth + 1,
-      )}`}\n${`${setIndent(depth)}+ ${elem.name}: ${stringify(elem.currentValue, depth + 1)}`}`;
-    case 'nested':
-      return `${`${setIndent(depth)}${symbols[elem.state]} ${elem.name}`}: {\n${getDataElem(
-        elem.children,
-      )}\n  ${setIndent(depth)}}`;
-    default:
-      throw new Error('Unknown state!');
+const stringify = (node, depth) => {
+  if (!_.isObject(node)) {
+    return node;
   }
+  const bracketEndIndent = getIndent(depth - 1);
+  const lines = Object.entries(node).map(
+    ([key, value]) => `${getIndent(depth)}${key}: ${stringify(value, depth + 1)}`,
+  );
+
+  return ['{', ...lines, `${bracketEndIndent}}`].join('\n');
 };
 
-export default function formatStylish(data) {
-  return `{\n${data.map((elem) => formatData(elem, 1)).join('\n')}\n}`;
-}
+const formatStylish = (data, depth = 1) => {
+  const indent = getIndent(depth).slice(0, getIndent(depth) - 2);
+  const bracketEndIndent = getIndent(depth - 1);
+  const lines = data.flatMap((diff) => {
+    switch (diff.type) {
+      case 'nested':
+        return `${indent}  ${diff.key}: ${formatStylish(diff.children, depth + 1)}`;
+      case 'added':
+        return `${indent}+ ${diff.key}: ${stringify(diff.value2, depth + 1)}`;
+      case 'deleted':
+        return `${indent}- ${diff.key}: ${stringify(diff.value1, depth + 1)}`;
+      case 'unchanged':
+        return `${indent}  ${diff.key}: ${stringify(diff.value1, depth + 1)}`;
+      case 'changed':
+        return [
+          `${indent}- ${diff.key}: ${stringify(diff.value1, depth + 1)}`,
+          `${indent}+ ${diff.key}: ${stringify(diff.value2, depth + 1)}`,
+        ];
+      default:
+        throw new Error(`Unknown type of data: ${diff.type}`);
+    }
+  });
+  return ['{', ...lines, `${bracketEndIndent}}`].join('\n');
+};
+
+export default formatStylish;

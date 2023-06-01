@@ -1,16 +1,15 @@
-import formatJson from './json.js';
 import formatPlain from './plain.js';
 import formatStylish from './stylish.js';
 
-export default function getFormatter(data, formatName) {
-  switch (formatName) {
-    case 'json':
-      return formatJson(data);
-    case 'plain':
-      return formatPlain(data);
+export default function getFormatter(data, type) {
+  switch (type) {
     case 'stylish':
       return formatStylish(data);
+    case 'plain':
+      return formatPlain(data);
+    case 'json':
+      return JSON.stringify(data);
     default:
-      throw new Error(`Unsupported format <${formatName}>`);
+      throw new Error(`Unsupported format <${type}>`);
   }
 }
