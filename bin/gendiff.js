@@ -15,4 +15,4 @@ program
   .action((filepath1, filepath2, options) => {
     console.log(getFilesDiff(filepath1, filepath2, options.format));
   })
-  .parse();
+  .parse(process.argv);
